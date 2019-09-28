@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		} else {
 
-			if (!operation.isEmpty() && evaluatePrecedingNumber(literal)) {
-				return;
+			if (!operation.isEmpty()) {
+				evaluatePrecedingNumber(literal);
 			}
 
 			txtValue.setText(txtValue.getText().toString().concat(literal));
@@ -78,16 +78,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		}
 	}
-
-	private boolean evaluatePrecedingNumber(String literal) {
+	
+	private void
+	evaluatePrecedingNumber(String literal) {
 
 		String character = txtValue.getText().toString();
-		character = character.substring(character.length() - 1, character.length());
+		int charLength = character.length();
+		String subCharacter = character.substring(charLength - 1, charLength);
 
-		String lastCharacter = calculate(character)+"";
+		String lastCharacter = calculate(subCharacter)+"";
 		String lastLiteral = calculate(literal) + "";
 
-		return (NAN.equals(lastCharacter) && NAN.equals(lastLiteral));
+		if (NAN.equals(lastCharacter) && NAN.equals(lastLiteral)) {
+			txtValue.setText(character.substring(0, charLength - 3));
+		}
 	}
 
 	private void evaluateExpression(String expression) {
